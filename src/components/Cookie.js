@@ -8,11 +8,17 @@ import Shop from './Shop';
 let cName = "cookie";
 let expirationAmount = 365;
 
+let itemList = [
+    {name: "Cursor", multiplier: 1.1, cost: 100},
+    {name: "Mario", multiplier: 1.1, cost: 100},
+];
+
 class Cookie extends Component {
     constructor(props) {
         super(props);
         this.state = {
             cookieAmount: 0,
+            cursorAmount: 0,
         }
     }
 
@@ -67,7 +73,7 @@ class Cookie extends Component {
         } else {
             console.log("this else", this.state.cookieAmount);
             this.setState({
-                cookieAmount: this.state.cookieAmount + 1
+                cookieAmount: this.state.cookieAmount + (1 + (this.state.cursorAmount))
             }, () => {
                 let cookieAmount = this.state.cookieAmount;
                 console.log('cookie attributes', cName, cookieAmount, expirationAmount);
@@ -80,7 +86,7 @@ class Cookie extends Component {
         return (
             <div>
                 <ScoreBoard cookieAmount={this.state.cookieAmount}/>
-                <Shop />
+                <Shop itemlist={itemList} />
 
                 <div className="cookie" onClick={() => this.cookieClick()}>
 

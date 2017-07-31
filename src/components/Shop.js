@@ -1,28 +1,38 @@
 import React, {Component} from 'react';
 import './Shop.css';
 
-let itemlist = [
-    {name: "item1", multiplier: 1.1, cost: 100},
-    {name: "item2", multiplier: 1.2, cost: 200},
-    {name: "item3", multiplier: 1.3, cost: 300}
-];
-
 class Shop extends Component {
+    buyItem(name){
+        console.log('clicked');
+        console.log("itemName", name)
+    }
+
     render() {
+        console.log(this.props);
+        const Items = () => {
+            return(
+                <ul>
+                    {
+
+                        this.props.itemlist.map((item) => {
+                            return (
+                                <li key={item.name}>
+                                        <button className="btn-answer" key={item.name} onClick={() => this.buyItem(item.name)}>
+                                            {item.name}
+                                        </button>
+                                </li>
+                            )
+                        }, this)
+                    }
+                </ul>
+            )
+        };
+
         return (
             <div className="shop">
                 <p>Shop</p>
-                {
-                    itemlist.map(function(item) {
-                        return (
-                            <li key={item.name}>
-                                    <button className="btn-answer" key={item.name}>
-                                        {item.name}
-                                    </button>
-                            </li>
-                        )
-                    }, this)
-                }
+
+                <Items />
             </div>
         );
     }
