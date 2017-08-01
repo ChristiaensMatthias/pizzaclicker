@@ -82,11 +82,17 @@ class Cookie extends Component {
         }
     };
 
+    buyItem(event){
+        console.log('clicked');
+        let itemName = event;
+        console.log("itemname", itemName)
+    }
+
     render() {
         return (
             <div>
                 <ScoreBoard cookieAmount={this.state.cookieAmount}/>
-                <Shop itemlist={itemList} />
+                <Shop itemlist={itemList} onClick={() => this.buyItem(event)}/>
 
                 <div className="cookie" onClick={() => this.cookieClick()}>
 

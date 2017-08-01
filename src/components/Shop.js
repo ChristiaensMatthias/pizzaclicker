@@ -2,24 +2,17 @@ import React, {Component} from 'react';
 import './Shop.css';
 
 class Shop extends Component {
-    buyItem(name){
-        console.log('clicked');
-        console.log("itemName", name)
-    }
-
     render() {
-        console.log(this.props);
         const Items = () => {
             return(
                 <ul>
                     {
-
                         this.props.itemlist.map((item) => {
                             return (
                                 <li key={item.name}>
-                                        <button className="btn-answer" key={item.name} onClick={() => this.buyItem(item.name)}>
+                                        <p className="btn-answer" key={item.name} name={item.name} onClick={this.props.onClick}>
                                             {item.name}
-                                        </button>
+                                        </p>
                                 </li>
                             )
                         }, this)
