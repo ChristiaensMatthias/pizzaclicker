@@ -66,10 +66,8 @@ class Cookie extends Component {
                 cookieAmount: 1
             }, () => {
                 let cookieAmount = this.state.cookieAmount;
-                console.log('cookie attributes', cName, cookieAmount, expirationAmount);
                 this.setCookie(cName, cookieAmount, expirationAmount);
-
-                return cookieAmount;
+                this.props.cookie.cookie = cookieAmount;
             })
         } else {
             console.log("this else", this.state.cookieAmount);
@@ -77,10 +75,10 @@ class Cookie extends Component {
                 cookieAmount: this.state.cookieAmount + 1
             }, () => {
                 let cookieAmount = this.state.cookieAmount;
-                console.log('cookie attributes', cName, cookieAmount, expirationAmount);
                 this.setCookie(cName, cookieAmount, expirationAmount);
+                this.props.cookie.cookie = cookieAmount;
 
-                return cookieAmount;
+                console.log(this.props.cookie)
             });
         }
     };
@@ -90,11 +88,7 @@ class Cookie extends Component {
             <div>
                 <ScoreBoard cookieAmount={this.state.cookieAmount}/>
                 <Shop />
-
-                <div className="cookie" onClick={() => this.cookieClick()}>
-
-                </div>
-
+                <div className="cookie" onClick={() => this.cookieClick()}></div>
                 <button onClick={() => this.deleteCookie()}>Delete progress</button>
             </div>
         );

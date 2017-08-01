@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+
 import './Shop.css';
 
 let itemList = [
@@ -54,4 +56,10 @@ class Shop extends Component {
     }
 }
 
-export default Shop;
+function mapStateToProps(state) {
+    return {
+        cookie: state.cookie
+    };
+}
+
+export default connect(mapStateToProps)(Shop);
