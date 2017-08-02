@@ -4,7 +4,7 @@ import { COOKIE } from '../actiontypes';
  * Actions
  */
 
-export const cookieClick = cookie => ({
-    type: COOKIE.ADD_VALUE,
-    payload: { cookie: cookie },
+export const updateCookie = cookie => ({
+    type: COOKIE.UPDATE_VALUE,
+    payload: { cookieAmount: cookie },
 });

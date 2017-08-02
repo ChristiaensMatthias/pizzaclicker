@@ -3,6 +3,11 @@ import logo from './logo.svg';
 import './App.css';
 
 import Cookie from './components/Cookie';
+import Shop from './components/Shop';
+
+//GLOBAL STATS
+let cName = "cookie";
+let expirationAmount = 365;
 
 class App extends Component {
   render() {
@@ -12,8 +17,9 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
+        <Shop cookieName={cName} expirationDate={expirationAmount}/>
+        <Cookie cookieName={cName} expirationDate={expirationAmount}/>
 
-        <Cookie />
       </div>
     );
   }

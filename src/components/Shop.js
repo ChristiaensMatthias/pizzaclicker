@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { setItems, updateItems } from '../redux/actions/shop'
+import { updateCookie } from '../redux/actions/cookie';
 
 import './Shop.css';
 
 let itemList = [
-    {name: "cursor", multiplier: 1.1, cost: 100},
-    {name: "mario", multiplier: 1.1, cost: 100},
+    {name: "cursor", multiplier: 1.1, cost: 100, amount: 0},
+    {name: "mario", multiplier: 1.1, cost: 100, amount: 0},
 ];
+
+let initialValue = 100;
+let percentage = 1.3;
 
 class Shop extends Component {
     constructor(){
@@ -17,11 +23,51 @@ class Shop extends Component {
         }
     }
 
+    componentWillMount(){
+        this.props.setItems(itemList);
+    }
+
     buyItem(name, multiplier, cost){
+        // LOOP OVER ITEMS
+
+        let storeState = this.props.shop.items;
+
+        for(let i = 0; i < this.props.shop.items.length; i++){
+            console.log("props name", this.props.shop.items[i].name);
+            // IF GLOBAL NAME EQUALS CLICKED NAME
+            if(this.props.shop.items[i].name === name){
+                // ITEM AMOUNT FROM GLOBAL STATE
+                let amountOfItems = this.props.shop.items[i].amount;
+
+
+                let newCost = initialValue * Math.pow(percentage, amountOfItems);
+
+
+
+
+
+
+
+                this.props.updateItems(this.props.shop.items[i].cost = newCost, this.props.shop.items[i].amount = amountOfItems, i);
+            }
+        }
+
+
+
+
         console.log(name, multiplier, cost);
-        this.setState({
-            [name + "Amount"]: this.state[name + "Amount"] + 1
-        })
+        if(this.props.cookie.amount >= cost){
+            this.props.updateCookie(this.props.cookie.amount - cost);
+            console.log(this.props);
+            this.setState({
+                [name + "Amount"]: this.state[name + "Amount"] + 1,
+            }, () => {
+
+            });
+        }
+
+
+        console.log("hello", this.props.shop)
     }
 
     render() {
@@ -58,8 +104,13 @@ class Shop extends Component {
 
 function mapStateToProps(state) {
     return {
-        cookie: state.cookie
+        cookie: state.cookie,
+        shop: state.shop
     };
 }
 
-export default connect(mapStateToProps)(Shop);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ setItems, updateItems, updateCookie }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Shop);

@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import CookieReducer from './cookie';
+import ShopReducer from './shop';
 
 const appReducer = combineReducers({
-  cookie: CookieReducer,
+    cookie: CookieReducer,
+    shop: ShopReducer,
 });
 
 const rootReducer = (state, action) => {
-    console.log("state", state);
-    console.log("action", action);
     return appReducer(state, action)
 };
 

@@ -4,11 +4,16 @@ import { COOKIE } from '../actiontypes';
  */
 // The state argument is not application state,
 // only the state this reducer is responsible for
+const initialState = {
+  amount: 0
+};
 
-export default function (state = { cookie: {}}, action){
+export default function (state = initialState , action){
+  console.log("action payload", action.payload);
+
   switch (action.type) {
-    case COOKIE.ADD_VALUE:
-      return Object.assign({}, state, { cookie: { value: 1 } });
+      case COOKIE.UPDATE_VALUE:
+      return Object.assign({}, state, { amount: action.payload.cookieAmount });
 
     default:
       return state;
