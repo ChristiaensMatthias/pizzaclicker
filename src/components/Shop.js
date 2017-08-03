@@ -1,21 +1,26 @@
 import React, {Component} from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { setItems, updateItems } from '../redux/actions/shop'
-import { updateCookie } from '../redux/actions/cookie';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {setItems, updateItems} from '../redux/actions/shop'
+import {updateCookie} from '../redux/actions/cookie';
 
 import './Shop.css';
 
 let itemList = [
-    {name: "cursor", multiplier: 1.1, cost: 100, amount: 0},
-    {name: "mario", multiplier: 1.1, cost: 100, amount: 0},
+    { name: "cursor" },
+    { name: "mario" },
 ];
+
+let newItemList = {
+    cursor: { cost: 100, amount: 0 },
+    mario: { cost: 100, amount: 0 },
+};
 
 let initialValue = 100;
 let percentage = 1.3;
 
 class Shop extends Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
             cursorAmount: 0,
@@ -23,66 +28,52 @@ class Shop extends Component {
         }
     }
 
-    componentWillMount(){
-        this.props.setItems(itemList);
+    componentWillMount() {
+        this.props.setItems(newItemList);
     }
 
-    buyItem(name, multiplier, cost){
+    buyItem(name) {
         // LOOP OVER ITEMS
-
         let storeState = this.props.shop.items;
+        console.log("store state", storeState);
 
-        for(let i = 0; i < this.props.shop.items.length; i++){
-            console.log("props name", this.props.shop.items[i].name);
-            // IF GLOBAL NAME EQUALS CLICKED NAME
-            if(this.props.shop.items[i].name === name){
-                // ITEM AMOUNT FROM GLOBAL STATE
-                let amountOfItems = this.props.shop.items[i].amount;
+        for (let objectName in this.props.shop.items) {
+            if (objectName === name) {
+                let cost = this.props.shop.items[name].cost;
 
-
-                let newCost = initialValue * Math.pow(percentage, amountOfItems);
-
-
-
-
-
-
-
-                this.props.updateItems(this.props.shop.items[i].cost = newCost, this.props.shop.items[i].amount = amountOfItems, i);
+                if (this.props.cookie.amount >= cost) {
+                    this.props.updateCookie(this.props.cookie.amount - cost);
+                    this.setState({
+                        [name + "Amount"]: this.state[name + "Amount"] + 1,
+                    }, () => {
+                        let newAmount = this.state[name + "Amount"];
+                        let newCost = initialValue * Math.pow(percentage, newAmount);
+                        let setItem = this.props.shop.items[name];
+                        setItem.cost = newCost;
+                        setItem.amount = newAmount;
+                        this.props.updateItems(setItem, name);
+                    });
+                } else {
+                    console.log("not enough cookies");
+                }
             }
         }
-
-
-
-
-        console.log(name, multiplier, cost);
-        if(this.props.cookie.amount >= cost){
-            this.props.updateCookie(this.props.cookie.amount - cost);
-            console.log(this.props);
-            this.setState({
-                [name + "Amount"]: this.state[name + "Amount"] + 1,
-            }, () => {
-
-            });
-        }
-
-
-        console.log("hello", this.props.shop)
     }
 
     render() {
         const Items = () => {
-            return(
+            return (
                 <div>
                     <ul>
                         {
                             itemList.map((item) => {
                                 return (
                                     <li key={item.name}>
-                                            <button className="btn-answer" key={item.name} name={item.name} onClick={() => this.buyItem(item.name, item.multiplier, item.cost)}>
-                                                {item.name}
-                                            </button>
-                                            <p>{item.name} amount: {this.state[item.name + "Amount"]}</p>
+                                        <button className="btn-answer" key={item.name} name={item.name}
+                                                onClick={() => this.buyItem(item.name)}>
+                                            {item.name}
+                                        </button>
+                                        <p>{item.name} amount: {this.state[item.name + "Amount"]}</p>
                                     </li>
                                 )
                             }, this)
@@ -110,7 +101,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ setItems, updateItems, updateCookie }, dispatch);
+    return bindActionCreators({setItems, updateItems, updateCookie}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Shop);

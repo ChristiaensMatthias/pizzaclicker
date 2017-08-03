@@ -11,10 +11,10 @@ export const setItems = items => {
     }
 };
 
-export const updateItems = (cost, amount, index) => {
-    console.log("update items", cost, amount, index);
+export const updateItems = (updatedItem, name) => {
+    console.log("update items", updatedItem, name);
     return {
         type: SHOP.UPDATE_ITEMS,
-        payload: { cost: cost , amount: amount, itemIndex: index}
+        payload: { updatedItem: updatedItem, name: name}
     }
 };

@@ -20,7 +20,6 @@ class Cookie extends Component {
     }
 
     getCookie = () => {
-        console.log("properties", this.props);
         let decodedCookie = decodeURIComponent(document.cookie);
         let name = this.props.cookieName + "=";
         let ca = decodedCookie.split(';');
@@ -39,7 +38,6 @@ class Cookie extends Component {
         let d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
         let expires = "expires=" + d.toUTCString();
-        console.log("cookie value", cvalue);
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     };
 

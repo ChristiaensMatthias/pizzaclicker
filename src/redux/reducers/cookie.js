@@ -9,8 +9,6 @@ const initialState = {
 };
 
 export default function (state = initialState , action){
-  console.log("action payload", action.payload);
-
   switch (action.type) {
       case COOKIE.UPDATE_VALUE:
       return Object.assign({}, state, { amount: action.payload.cookieAmount });
